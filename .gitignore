@@ -1,0 +1,5 @@
+#Vim swap files
+*.swp
+
+#NodeJS module folder
+/node_modules

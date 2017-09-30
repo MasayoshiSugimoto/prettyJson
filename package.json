@@ -1,0 +1,15 @@
+{
+  "name": "jsonPrettifier",
+  "version": "1.0.0",
+  "description": "description",
+  "scripts": {
+    "test": "npm run test-unit",
+    "test-unit": "NODE_ENV=test mocha --require co-mocha '*.test.js'"
+  },
+  "dependencies": {
+    "chai": "^4.1.2",
+    "co-mocha": "^1.2.0",
+    "mocha": "^3.5.3",
+    "sinon": "^3.3.0"
+  }
+}
