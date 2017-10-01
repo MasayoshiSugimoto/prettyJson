@@ -16,13 +16,12 @@ const prettyJSON = jsonString => {
         + pretty(ignoreSpace(index + 1), indentLevel + 1)
     const closeScope = (character) => newLine(indentLevel - 1)
         + character  
-        + pretty(index + 1, indentLevel - 1)
+        + pretty(ignoreSpace(index + 1), indentLevel - 1)
     const parseString = index => {
       if (jsonString.charAt(index) == '"')
         return index + 1
       return parseString(index + 1)
     }
-    
 
     if (index >= jsonString.length)
       return ""
@@ -32,21 +31,24 @@ const prettyJSON = jsonString => {
         return openScope('{')
       case '}':
         return closeScope('}')
-      case '[':
-        return openScope('[')
-      case ']':
-        return closeScope(']')
-      case '"':
-        const endString = parseString(index + 1)
-        return jsonString.substr(index, endString - index)
-            + pretty(endString, indentLevel) 
       case ',':
         return ','
             + newLine(indentLevel)
             + pretty(ignoreSpace(index + 1), indentLevel)
+      case '[':
+        return openScope('[')
+      case ']':
+        return closeScope(']')
+      case ':':
+        return ': ' + pretty(ignoreSpace(index + 1), indentLevel) 
+      case '"':
+        const endString = parseString(index + 1)
+        return jsonString.substr(index, endString - index)
+            + pretty(endString, indentLevel) 
       default:
         return jsonString.charAt(index) + pretty(index + 1, indentLevel)
     }
+
   }
   return pretty(0, 0)
 }
