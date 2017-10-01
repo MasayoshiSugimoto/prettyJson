@@ -7,6 +7,6 @@ const jsonPrettifier = require('./jsonPrettifier').jsonPrettifier
 describe('jsonPrettifierTest', () => {
   it('Parse JSON', () => {
     assert.equal('{\n}', jsonPrettifier("{}"))
-    //assert.equal('{\n\t"key1": "value1\n"}', jsonPrettifier('{"key1": "value1"}'))
+    assert.equal('{\n\t"key1": "value1\n"}', jsonPrettifier('{"key1": "value1"}'))
   } )
 })
