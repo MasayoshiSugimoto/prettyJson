@@ -1,7 +1,5 @@
 "use strict"
 
-const fs = require('fs')
-
 const prettyJSON = jsonString => {
 
   const pretty = (index, indentLevel) => {
@@ -27,7 +25,7 @@ const prettyJSON = jsonString => {
     
 
     if (index >= jsonString.length)
-    return ""
+      return ""
 
     switch (jsonString.charAt(index)) {
       case '{':
@@ -53,62 +51,4 @@ const prettyJSON = jsonString => {
   return pretty(0, 0)
 }
 
-const stackProfiler = () => {
-  const startTime = process.hrtime()[0]
-  return () => process.hrtime()[0] - startTime
-}
-
-const Nothing = {
-  map: f => Nothing,
-  foreach: f => {}
-}
-
-const Maybe = x => {
-  if (x == null)
-    return Nothing
-
-  const map = f => Maybe(f(x))
-  const foreach = f => f(x)
-  const get = () => x
-
-  return {map, foreach, get}
-}
-
-const Try = (f) => {
-  let error = Nothing
-  let result = Nothing
-  try {
-    result = Maybe(f())
-  } catch (e) {
-    result = Nothing
-    error = Maybe(e)
-  }
-
-  const t = {map, foreach, get, onFailure}
-
-  function map(f) { result.map(f) }
-  function foreach(f) { result.foreach(f) }
-  function get() { result.get() }
-  function onFailure(f) {
-    error.foreach(f)
-    return t
-  }
-
-  return t
-}
-
-module.exports.jsonPrettifier = prettyJSON
-
-fs.readFile('flatJsonExample.json','utf8', (err,text) => {
-  if (err) {
-    return console.log(err)
-  }
-  // const endProfiler = stackProfiler()
-  // for (let i = 0; i < 1000000; i++) { prettyJSON(text) }
-  // console.log(`Finished in ${endProfiler()} seconds`)
-  Try( () => prettyJSON(text) )
-      .onFailure( e => console.log(e) )
-      .foreach( text => console.log(text) )
-
-  //console.log(prettyJSON(text))
-})
+module.exports.prettyJSON = prettyJSON

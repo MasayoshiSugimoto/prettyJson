@@ -4,7 +4,7 @@
   "description": "description",
   "scripts": {
     "test": "npm run test-unit",
-    "test-unit": "mocha --require co-mocha *.test.js"
+    "test-unit": "mocha --require co-mocha **/*.test.js"
   },
   "dependencies": {
     "chai": "^4.1.2",
